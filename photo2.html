@@ -21,6 +21,7 @@
  var text = document.getElementById('text');
  var canvas1 = document.getElementById('qr-canvas');
  var context1 = canvas1.getContext('2d');
+ document.getElementById('take-picture').setAttribute('capture', 'user')
  var mediaStreamTrack;
  
  // 一堆兼容代码
@@ -44,7 +45,7 @@
  var mediaOpts = {
     audio: false,
     video: true,
-    video: { facingMode: "environment"} // 或者 "user"
+    video: { facingMode: "user"} // 或者 "user"
     // video: { width: 1280, height: 720 }
     // video: { facingMode: { exact: "environment" } }// 或者 "user"
  }
