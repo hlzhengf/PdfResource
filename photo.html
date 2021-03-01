@@ -2,12 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>拍照</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{border:0;padding:0}
+        body{margin:0}
+        .bot-btn{
+            position: absolute;
+            bottom:0;
+            width: 100%;
+            right: 0;
+            
+        }
+        #cam{
+            position: absolute;
+            bottom:0;
+            right: 0;
+            width:6rem;
+            height: 2rem;
+            background:#176de6;
+            font-size: 1rem;
+            color: #fff;
+        }
+        #capture{
+            width:5rem;
+            height: 2rem;
+            background:#176de6;
+            font-size: 1rem;
+            color: #fff;
+            display: none
+            
+        }
+    </style>
 </head>
+
 <body>
-<video id="video" width="640" height="480" autoplay="autoplay"></video>
+
+<video id="video" autoplay="autoplay"></video>
 <!--拍照按钮-->
-<div>
+<div id='cam'>调起摄像头</div>
+<div class='bot-btn'>
     <button id="capture">拍照</button>
 </div>
 <!--描绘video截图-->
@@ -46,12 +81,18 @@
     //默认使用前摄像头，强制使用后置摄像头如下设置
     // let constraints = {video: { facingMode: { exact: "environment" } }};
     let constraints = {video: true};
-    navigator.mediaDevices.getUserMedia(constraints)
+    let cam = document.getElementById("cam")
+    let capture = document.getElementById("capture")
+    cam.addEventListener("click", function () {
+        console.log('ddd')
+        this.style.display='none'
+        capture.style.display='block'
+        navigator.mediaDevices.getUserMedia(constraints)
         .then(function (stream) {
+            console.log('ss')
             // 旧的浏览器可能没有srcObject
             if ("srcObject" in video) {
                 video.srcObject = stream;
-                console.log(stream)
             } else {
                 // 防止在新的浏览器里使用它，应为它已经不再支持了
                 video.src = window.URL.createObjectURL(stream);
@@ -64,13 +105,15 @@
         .catch(function (err) {
             console.log(err.name + ": " + err.message);
         });
+    })
 
     //注册拍照按钮的单击事件
-    document.getElementById("capture").addEventListener("click", function () {
+    capture.addEventListener("click", function () {
         //绘制画面
         context.drawImage(video, 0, 0, 640, 480);
-        console.log(canvas.toDataURL('image/jpeg'))
-        document.getElementById('myimg').src=canvas.toDataURL('image/jpeg',0.2)
+        console.log(canvas.toDataURL('image/jpeg',0.2))
+        // document.getElementById('myimg').src=canvas.toDataURL('image/jpeg',0.2)
+        console.log()
     });
 </script>
 </body>
